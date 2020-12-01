@@ -6,9 +6,9 @@ class TrataBase:
         pass
 
     def iniciaTratamento(self):
-        base, jogadaInteligente, scoreInteligente = self.__trataBase()
-        jogadasFormatadas = self.__vetorParaString(jogadaInteligente)
-        scoresFormatados = self.__vetorParaString(scoreInteligente)
+        base, jogadasDaRodada, scoreDaRodada = self.__trataBase()
+        jogadasFormatadas = self.__vetorParaString(jogadasDaRodada)
+        scoresFormatados = self.__vetorParaString(scoreDaRodada)
         return jogadasFormatadas, scoresFormatados
 
     def __vetorParaString(self, vetor):
@@ -20,6 +20,6 @@ class TrataBase:
     def __trataBase(self):
         base = ArquivosExternos().pega('InteligenteDados')
         print(base)
-        jogadaInteligente = base.pop('jogadasInteligente')
-        scoreInteligente = base.pop('scoreInteligente')
-        return base, jogadaInteligente, scoreInteligente
+        jogadasDaRodada = base.pop('jogadasDaRodada')
+        scoreDaRodada = base.pop('scoreDaRodada')
+        return base, jogadasDaRodada, scoreDaRodada
