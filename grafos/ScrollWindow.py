@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from PyQt5 import QtWidgets
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from controller.Preenchimento import Preenchimento as preenchimento
 
 
 class ScrollableWindow(QtWidgets.QMainWindow):
@@ -16,13 +17,16 @@ class ScrollableWindow(QtWidgets.QMainWindow):
 
     # numeroDoGrafo = None
 
+    '''
     def mostrarScores(self):
+        print(self.listaDeScores)
         for i in self.listaDeScores:
             numeroDoGrafo = i
 
             plt.annotate(self.listaDeScores[numeroDoGrafo], xy=self.pos[numeroDoGrafo], xytext=(10, 10),
             textcoords="offset points", bbox=dict(boxstyle="round", fc="red")).get_bbox_patch().set_alpha(0.7)
 
+    '''
     '''
     def formatarListaDePosicoes(self):
         for i in range(len(self.pos)):
@@ -96,11 +100,11 @@ class ScrollableWindow(QtWidgets.QMainWindow):
         self.widget.layout().addWidget(self.nav)
         self.widget.layout().addWidget(self.scroll)
 
-        plt.xlim([-0.001, 1.042361111111111])
+        plt.xlim([-0.001, 1.008])    #1.042361111111111
 
         # self.setMousePosition()
 
-        self.mostrarScores()
+        preenchimento.mostrarScores(self, plt, pos)
 
         self.show()
 

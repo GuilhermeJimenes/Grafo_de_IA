@@ -17,7 +17,23 @@ baseDeDados = ArquivosExternos()
 
 arvore = baseDeDados.pega('InteligenteDados')
 
-print(arvore)
+tratamento = TrataBase().iniciaTratamento()
+
+#print("=>", tratamento[0])
+
+listaDePartidas = tratamento[0]
+
+listaDeScores = tratamento[1]
+
+
+print(tratamento)
+
+
+
+#print(st)
+#print(st2)
+
+
 
 '''
 tratamento = TrataDados().percorreArvore(arvore)

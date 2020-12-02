@@ -43,10 +43,9 @@ for i in range(len(duplas)):
 
     nx.draw_networkx_labels(G, pos, labelsExistentes, font_size=10, font_color="black", font_weight="bold")
 
-    plt.pause(3)
+    plt.pause(0.5)
 
 # ScrollableWindow(fig, pos, preenchimento.listaDeScores)
-
 
 plt.show()
 

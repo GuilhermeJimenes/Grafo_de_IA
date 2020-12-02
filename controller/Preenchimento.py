@@ -3,25 +3,25 @@ from model.TrataBase import TrataBase
 
 class Preenchimento:
     jogadasFormatadas = []
-    scoresExperimentados = []
+    scoresFormatados = []
     duplasDeNosExperimentadas = []
-    # labelsParaArestasExperimentadas = {}
+    #labelsParaArestasExperimentadas = {}
     labelsParaNosExperimentados = {}
     listaDeScores = {}
 
     def __init__(self):
-        self.jogadasFormatadas, scoresDaRodada = TrataBase().iniciaTratamento()
-        print("aqui: ", self.jogadasFormatadas, "\n", scoresDaRodada)
+        self.jogadasFormatadas, self.scoresFormatados = TrataBase().iniciaTratamento()
+        print("aqui: ", self.jogadasFormatadas, "\n", self.scoresFormatados)
         print(len(self.jogadasFormatadas))
         # ,,,,,,,,,,,,,,,self.scoresExperimentados = ClasseTratamentoDeDados().scoresPontuados
         self.verificarDuplasDeNosExperimentadas()
 
     '''
-    def setLabelsParaArestasExperimentadas(self, duplaDeNos, posicaoAtual, posicaoAnterior):
+    def setLabelsParaArestasExperimentadas(self, duplaDeNos, valor):
 
-        self.labelsParaArestasExperimentadas[(duplaDeNos[0], duplaDeNos[1])] = posicaoAtual #posicaoAnterior + "-" + posicaoAtual
-
+        self.labelsParaArestasExperimentadas[(duplaDeNos[0], duplaDeNos[1])] = valor #posicaoAnterior + "-" + posicaoAtual
     '''
+
 
     def setLabelsParaNosExperimentados(self, numeroDoGrafo, valorLabel):
         self.labelsParaNosExperimentados[numeroDoGrafo] = valorLabel
@@ -29,6 +29,8 @@ class Preenchimento:
     def adicionarScoreNaLista(self, numeroDoGrafo, valorDoScore):
         if (numeroDoGrafo not in self.listaDeScores):
             self.listaDeScores.__setitem__(numeroDoGrafo, valorDoScore)
+        else:
+            self.listaDeScores[numeroDoGrafo] = valorDoScore
 
     def verificarDuplasDeNosExperimentadas(self):
         # 2) Lista de referências com os valores que representam os nós iniciais de cada camada (linha) do cérebro
@@ -45,8 +47,8 @@ class Preenchimento:
             numeroDoGrafoAnterior = -1
 
             # 4.3) Variável que recebe o jogo atual i da lista do passo 1;
-            jogoAtual = self.jogadasFormatadas[i]
-            # ,,,,,,,,,,,,scoresDoJogoAtual = self.scoresExperimentados[i]
+            jogoAtual = self.jogadasFormatadas[i].replace(",", "").replace(" ", "")
+            scoresDoJogoAtual = self.scoresFormatados[i].replace(" ", "") + ","
 
             # 4.4) Segundo looping
             for j in range(len(jogoAtual)):
@@ -55,7 +57,7 @@ class Preenchimento:
 
                 # 4.4.2) Variável que guarda o valor presente na posição j do jogo i da lista do passo 1;
                 valor = jogoAtual.__getitem__(j)
-                # ,,,,,,,,,valorDoScore = scoresDoJogoAtual[:scoresDoJogoAtual.find("/")]
+                valorDoScore = scoresDoJogoAtual[:scoresDoJogoAtual.find(",")]
 
                 # 4.4.3) Variável que guarda a posição onde o valor do passo 4.4.2 se encontra na variável do passo 4.1;
                 posicao = posicoesDeJogo.find(valor)
@@ -74,7 +76,8 @@ class Preenchimento:
                         # 4.4.4.3.1) Insere a lista do passo 4.4.4.2 na lista do passo 3;
                         self.duplasDeNosExperimentadas.append(duplaAtual)
 
-                        # self.setLabelsParaArestasExperimentadas(duplaAtual, valor, jogoAtual.__getitem__(j-1))
+                        #self.setLabelsParaArestasExperimentadas(duplaAtual, valor, jogoAtual.__getitem__(j-1))
+                        #self.setLabelsParaArestasExperimentadas(duplaAtual, valorDoScore)
                         self.setLabelsParaNosExperimentados(duplaAtual[1], valor)
 
                 # 4.4.5)...
@@ -83,7 +86,7 @@ class Preenchimento:
                     resultadoTransformacao = posicao + 1
                     self.setLabelsParaNosExperimentados(resultadoTransformacao, valor)
 
-                # ,,,,,,,,,,,,,self.adicionarScoreNaLista(resultadoTransformacao, valorDoScore)
+                self.adicionarScoreNaLista(resultadoTransformacao, valorDoScore)
 
                 # 4.4.6) Substituição do valor da variável do passo 4.4.2 por um valor vazio ("") na variável do passo 4.1;
                 posicoesDeJogo = posicoesDeJogo.replace(valor, "")
@@ -91,4 +94,13 @@ class Preenchimento:
                 # 4.4.7) Atribuir à variável do passo 4.2 o valor da variável do passo 4.4.1;
                 numeroDoGrafoAnterior = resultadoTransformacao
 
-                # ,,,,,,,,,,valorDoScore = valorDoScore[valorDoScore.find("/")+1:]
+                scoresDoJogoAtual = scoresDoJogoAtual[scoresDoJogoAtual.find(",")+1:]
+
+
+
+    def mostrarScores(self, plt, pos):
+        for i in self.listaDeScores:
+            numeroDoGrafo = i
+
+            plt.annotate(self.listaDeScores[numeroDoGrafo], xy=pos[numeroDoGrafo], xytext=(-2, 6),
+            textcoords="offset points", color="red", fontweight="bold", fontsize=8)
