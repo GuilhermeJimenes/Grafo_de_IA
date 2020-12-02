@@ -1,4 +1,4 @@
-from model.TrataBase import TrataBase
+from model.ArquivosExternos import ArquivosExternos
 
 
 class Preenchimento:
@@ -10,7 +10,10 @@ class Preenchimento:
     listaDeScores = {}
 
     def __init__(self):
-        self.jogadasFormatadas, self.scoresFormatados = TrataBase().iniciaTratamento()
+        base = ArquivosExternos().pega('InteligenteDados')
+        dadosGrafo = base.pop('dadosGrafo')
+        # morre aqui pq está pegando um dicionario ao em vez dos dados separados como que antes
+        # self.jogadasFormatadas, self.scoresFormatados = TrataBase().iniciaTratamento() APAGAR, ESTA AQUI PARA CONSULTA
         print("aqui: ", self.jogadasFormatadas, "\n", self.scoresFormatados)
         print(len(self.jogadasFormatadas))
         # ,,,,,,,,,,,,,,,self.scoresExperimentados = ClasseTratamentoDeDados().scoresPontuados
