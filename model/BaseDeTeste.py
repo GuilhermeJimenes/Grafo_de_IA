@@ -1,6 +1,7 @@
-from model.TrataBase import TrataBase
+#from model.TrataBase import TrataBase
 from model.ArquivosExternos import ArquivosExternos
-from model.TrataBase import TrataBase
+#from model.TrataBase import TrataBase
+from controller.Preenchimento import Preenchimento
 
 '''
 tratamento = ClasseTratamentoDeDados()
@@ -13,25 +14,11 @@ print("Scores:", scores)
 print("\n", "-"*107, "\n")
 '''
 
-baseDeDados = ArquivosExternos()
+#baseDeDados = ArquivosExternos()
 
-arvore = baseDeDados.pega('InteligenteDados')
+#arvore = baseDeDados.pega('InteligenteDados')
 
-tratamento = TrataBase().iniciaTratamento()
-
-#print("=>", tratamento[0])
-
-listaDePartidas = tratamento[0]
-
-listaDeScores = tratamento[1]
-
-
-print(tratamento)
-
-
-
-#print(st)
-#print(st2)
+preenchimento = Preenchimento()
 
 
 

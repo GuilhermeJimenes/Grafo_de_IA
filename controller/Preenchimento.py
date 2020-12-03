@@ -14,10 +14,22 @@ class Preenchimento:
         dadosGrafo = base.pop('dadosGrafo')
         # morre aqui pq está pegando um dicionario ao em vez dos dados separados como que antes
         # self.jogadasFormatadas, self.scoresFormatados = TrataBase().iniciaTratamento() APAGAR, ESTA AQUI PARA CONSULTA
-        print("aqui: ", self.jogadasFormatadas, "\n", self.scoresFormatados)
-        print(len(self.jogadasFormatadas))
+        self.separar(dadosGrafo)
+        print("aqui: ", dadosGrafo)
+        print(len(dadosGrafo))
         # ,,,,,,,,,,,,,,,self.scoresExperimentados = ClasseTratamentoDeDados().scoresPontuados
         self.verificarDuplasDeNosExperimentadas()
+
+
+    def separar(self, dadosGrafo):
+        for partidas in dadosGrafo:
+            jogada = str(partidas['jogadas']).replace(",", "").replace(" ", "")
+            score = str(partidas['score']).replace(" ", "") + ","
+            self.jogadasFormatadas.append(jogada)
+            self.scoresFormatados.append(score)
+
+
+
 
     '''
     def setLabelsParaArestasExperimentadas(self, duplaDeNos, valor):
@@ -50,8 +62,8 @@ class Preenchimento:
             numeroDoGrafoAnterior = -1
 
             # 4.3) Variável que recebe o jogo atual i da lista do passo 1;
-            jogoAtual = self.jogadasFormatadas[i].replace(",", "").replace(" ", "")
-            scoresDoJogoAtual = self.scoresFormatados[i].replace(" ", "") + ","
+            jogoAtual = self.jogadasFormatadas[i]
+            scoresDoJogoAtual = self.scoresFormatados[i]
 
             # 4.4) Segundo looping
             for j in range(len(jogoAtual)):
