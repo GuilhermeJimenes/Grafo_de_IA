@@ -14,6 +14,8 @@ duplas = preenchimento.duplasDeNosExperimentadas
 
 labels = preenchimento.labelsParaNosExperimentados
 
+scores = preenchimento.listaDeScores
+
 tamanho = len(duplas)
 
 i = 0
@@ -27,7 +29,16 @@ while i < tamanho:
 
 labelsExistentes = {}
 
-# O LOOPING ABAIXO DESENHA DINAMICAMENTE TANTO OS NÓS QUANTO AS ARESTAS...
+scoresExistentes = {}
+
+
+def mostrarScoresDinamicamente():
+    for numeroDoGrafo in scoresExistentes:
+        plt.annotate(scoresExistentes[numeroDoGrafo], xy=pos[numeroDoGrafo], xytext=(-2, 6),
+                     textcoords="offset points", color="red", fontweight="bold", fontsize=8)
+
+
+# O LOOPING ABAIXO DESENHA DINAMICAMENTE TANTO OS NÓS QUANTO AS ARESTAS E OS SCORES...
 
 for i in range(len(duplas)):
     plt.clf()
@@ -37,16 +48,17 @@ for i in range(len(duplas)):
 
     if duplas[i][0] in labels:
         labelsExistentes.__setitem__(duplas[i][0], labels[duplas[i][0]])
+        scoresExistentes.__setitem__(duplas[i][0], scores[duplas[i][0]])
 
     if duplas[i][1] in labels:
         labelsExistentes.__setitem__(duplas[i][1], labels[duplas[i][1]])
+        scoresExistentes.__setitem__(duplas[i][1], scores[duplas[i][1]])
 
     nx.draw_networkx_labels(G, pos, labelsExistentes, font_size=10, font_color="black", font_weight="bold")
 
+    mostrarScoresDinamicamente()
+
     plt.pause(0.5)
 
-# ScrollableWindow(fig, pos, preenchimento.listaDeScores)
-
-plt.show()
 
 print("...")

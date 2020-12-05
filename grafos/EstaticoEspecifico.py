@@ -46,14 +46,14 @@ nx.draw_networkx_edge_labels(G, pos, labels, font_size=8, font_color="red")
 '''
 
 
-#ScrollableWindow(fig, pos, preenchimento.listaDeScores)
+ScrollableWindow(fig, pos, preenchimento.listaDeScores)
 
-
+'''
 preenchimento.mostrarScores(plt, pos)
 
 plt.xlim([-0.005, 1.015])
 
 plt.show()
-
+'''
 
 print("...")
