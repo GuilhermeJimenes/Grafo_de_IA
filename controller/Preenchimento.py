@@ -10,24 +10,39 @@ class Preenchimento:
     listaDeScores = {}
 
     def __init__(self):
-        base = ArquivosExternos().pega('InteligenteDados')
-        dadosGrafo = base.pop('dadosGrafo')
-        # morre aqui pq está pegando um dicionario ao em vez dos dados separados como que antes
-        # self.jogadasFormatadas, self.scoresFormatados = TrataBase().iniciaTratamento() APAGAR, ESTA AQUI PARA CONSULTA
-        self.separar(dadosGrafo)
-        print("aqui: ", dadosGrafo)
-        print(len(dadosGrafo))
-        # ,,,,,,,,,,,,,,,self.scoresExperimentados = ClasseTratamentoDeDados().scoresPontuados
-        self.verificarDuplasDeNosExperimentadas()
+        self.manipularDados(self.jogadasFormatadas, self.scoresFormatados)
 
 
-    def separar(self, dadosGrafo):
+    def separar(self, dadosGrafo, jogadasFormatadas, scoresFormatados):
+        #self.jogadasFormatadas = []
+        #self.scoresFormatados = []
         for partidas in dadosGrafo:
             jogada = str(partidas['jogadas']).replace(",", "").replace(" ", "")
             score = str(partidas['score']).replace(" ", "") + ","
-            self.jogadasFormatadas.append(jogada)
-            self.scoresFormatados.append(score)
+            jogadasFormatadas.append(jogada)
+            scoresFormatados.append(score)
 
+
+    def pegarDados(self):
+        dadosGrafo = []
+        base = ArquivosExternos().pega('InteligenteDados')
+        if base != None:
+            dadosGrafo = base.pop('dadosGrafo')
+        return dadosGrafo
+
+
+    def manipularDados(self, jogadasFormatadas, scoresFormatados):
+        dadosGrafo = self.pegarDados()
+        self.separar(dadosGrafo, jogadasFormatadas, scoresFormatados)
+        print("aqui: ", dadosGrafo)
+        print(len(dadosGrafo))
+        # ,,,,,,,,,,,,,,,self.scoresExperimentados = ClasseTratamentoDeDados().scoresPontuados
+        self.verificarDuplasDeNosExperimentadas(jogadasFormatadas, scoresFormatados)
+
+        if(len(dadosGrafo)==0):
+            return ""
+        else:
+            return dadosGrafo[len(dadosGrafo) - 1]
 
 
 
@@ -47,14 +62,17 @@ class Preenchimento:
         else:
             self.listaDeScores[numeroDoGrafo] = valorDoScore
 
-    def verificarDuplasDeNosExperimentadas(self):
+    def verificarDuplasDeNosExperimentadas(self, jogadasFormatadas, scoresFormatados):
         # 2) Lista de referências com os valores que representam os nós iniciais de cada camada (linha) do cérebro
         referencias = [1, 10, 82, 586, 3610, 18730, 79210, 260650, 623530]
 
         # 3) Este passo é só para mencionar a já declarada lista chamada de "duplasDeNosExperimentadas" que ficará responsável por receber cada dupla de nós já experimentada após a devida transformação
 
+        ultimasDuplasJogadas = []
+        ultimaDuplaAtual = [0]
+
         # 4) Primeiro looping
-        for i in range(len(self.jogadasFormatadas)):
+        for i in range(len(jogadasFormatadas)):
             # 4.1) Variável que recebe todas as posições possíveis
             posicoesDeJogo = "012345678"
 
@@ -62,8 +80,8 @@ class Preenchimento:
             numeroDoGrafoAnterior = -1
 
             # 4.3) Variável que recebe o jogo atual i da lista do passo 1;
-            jogoAtual = self.jogadasFormatadas[i]
-            scoresDoJogoAtual = self.scoresFormatados[i]
+            jogoAtual = jogadasFormatadas[i]
+            scoresDoJogoAtual = scoresFormatados[i]
 
             # 4.4) Segundo looping
             for j in range(len(jogoAtual)):
@@ -110,6 +128,14 @@ class Preenchimento:
                 numeroDoGrafoAnterior = resultadoTransformacao
 
                 scoresDoJogoAtual = scoresDoJogoAtual[scoresDoJogoAtual.find(",")+1:]
+
+                if i == len(jogadasFormatadas)-1:
+                    ultimaDuplaAtual.append(resultadoTransformacao)
+                    if len(ultimaDuplaAtual) == 2:
+                        ultimasDuplasJogadas.append(ultimaDuplaAtual)
+                        ultimaDuplaAtual = [ultimaDuplaAtual[1]]
+
+        return ultimasDuplasJogadas
 
 
 
